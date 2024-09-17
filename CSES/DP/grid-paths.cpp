@@ -9,52 +9,53 @@ using namespace std;
 #define all(v) (v).begin(),(v).end()
 #define F first
 #define S second
-
+ 
 typedef long double ld;
 typedef long long ll;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
-
-const int N = 1e5 + 1;
-const int M = 101;
-const int MOD = 1e9 + 7;
-const int INF = 1e8;
-
+ 
+const int N = 1e4;
+const ll MOD = 1e9 + 7LL;
+const int INF = 1e9;
+ 
 const char A = 'a';
 const char ZERO = '0';
 const char ENDL = '\n';
-
+ 
 const string YES = "YES";
 const string NO = "NO";
-
-
+ 
+ 
+ 
 void solve(){
-    int n, m; cin>>n>>m;
-    vector<int> vec(n); 
-    rep(i, n) cin>>vec[i];
-    vector<vector<int>> dp(N, vector<int>(M));
-    if(vec[0] == 0) for(int i = 1; i <= m; i ++) dp[1][i] = 1;
-    else dp[1][vec[0]] = 1;
-
-    for(int i = 2; i <= n; i++) {
-        for(int j = 1; j <= m; j++){
-            if(vec[i - 1] != 0 && vec[i - 1] != j) continue;
-            for(int k = j - 1; k <= j + 1; k++){
-                if(k >= 1 && k <= m) dp[i][j] = (dp[i][j] + dp[i - 1][k])%MOD;
-            }
+    int n; cin>>n;
+    vector<vi> dp(n + 1, vi(n + 1));
+    vector<vi> visit(n + 1, vi(n + 1)); 
+    char inp;
+    rep(i, n) {
+        rep(j, n) {
+            cin>>inp;
+            if(inp == '*') visit[i + 1][j + 1] = 1;
         }
-       
     }
-    int ans = 0;
-    for(int i = 1; i <= m; i++){
-        ans = (ans + dp[n][i])%MOD;
+ 
+    REP(i, 1, n + 1) {
+        REP(j, 1, n + 1) {
+            if(visit[i][j]) continue;
+            if(i == 1 and j ==1) {dp[i][j] = 1; continue;}    
+            dp[i][j] = (dp[i - 1][j] + dp[i][j - 1])%MOD;
+ 
+        }
     }
-    cout<<ans;
+ 
+    cout<<dp[n][n];
+ 
 }
-
-
+ 
+ 
 int main(){
   //freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
@@ -64,6 +65,6 @@ int main(){
     while(t--){
         solve();
     }
-
+ 
     return 0;
 }
