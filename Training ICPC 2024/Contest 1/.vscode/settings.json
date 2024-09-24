@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "iostream": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "initializer_list": "cpp"
     }
 }

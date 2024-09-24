@@ -29,45 +29,36 @@ const char ENDL = '\n';
 const string YES = "YES";
 const string NO = "NO";
 
-int n;
-ll x;
-vector<int> vec;
-vector<int> memo((1<<20), INF);
-
 
 void solve(){
+    int n; ll x;
     cin>>n>>x;
-    vec.resize(n);
+    vector<int> vec(n);
     rep(i, n) cin>>vec[i];
-    vector<vector<pair<int, ll>>> dp(mxN, vector<pair<int, ll>>(mxS, {0, INF}));
-    vector<int> elem_s(mxS);
-    vector<ll> suma_s(mxS);
 
-    int count;
-    int suma;
-    for(int s = 0; s < (1<<n); s++){
-        count = 0;
-        suma = 0;
-        for(int j = 0; j < n; j++){
+    vector<pair<int, int>> dp(1<<n, {n + 1, 0});
+    dp[0] = {1, 0};
+    for(int s = 1; s < (1<<n); s++){
+        for(int j = 0; j <n; j++){
             if(s & (1<<j)){
-                count++;
-                suma += vec[j];
+                auto option = dp[s ^ (1<<j)];
+                if(option.second + vec[j] <= x) option.second += vec[j];
+                else{
+                    option.first++;
+                    option.second = vec[j];
+                }
+                dp[s] = min(dp[s], option);
             }
-            elem_s[s] = count;
-            suma_s[s] = suma;
         }
-    }
+    } 
 
-    
-
-    
-
+    cout<<dp[(1<<n) - 1].first;
     
 }
 
 
 int main(){
-    freopen("input.txt", "r", stdin);
+    //freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
     fastio;
     int t=1;
