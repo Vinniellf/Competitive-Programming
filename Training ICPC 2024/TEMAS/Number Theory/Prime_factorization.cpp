@@ -1,3 +1,4 @@
+//https://codeforces.com/problemset/problem/162/C
 #include<bits/stdc++.h>
 using namespace std;
 #define fastio ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
@@ -5,7 +6,6 @@ using namespace std;
 #define REP(i,k,n) for (int i = k; i <n; ++i)
 #define REPR(i,k,n) for (int i = k; i >= n; --i)
 #define pb push_back
-#define fill(x,v) memset(x,v,sizeof(x))
 #define all(v) (v).begin(),(v).end()
 #define F first
 #define S second
@@ -17,7 +17,7 @@ typedef pair<ll,ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 
-const int N = 5001;
+const int N = 1e4;
 const ll MOD = 998244353LL;
 const int INF = 1e9;
 
@@ -28,38 +28,41 @@ const char ENDL = '\n';
 const string YES = "YES";
 const string NO = "NO";
 
-vector<vector<ll>> mat(N, vector<ll>(N, 0));
-vector<vector<bool>> vis(N, vector<bool>(N, false));
-vector<ll> vec(N);
+const int MAXN = 1000;
+vector <int> prime;
+bool is_composite[MAXN];
 
-ll dp(int l, int r, ll suma){
-    if(vis[l][r]){
-        return mat[l][r];
-    }
-    vis[l][r] = true;
-    ll mx = max(suma - dp(l + 1, r, suma - vec[l]), suma - dp(l, r - 1, suma - vec[r]));
-    mat[l][r] = mx;
-    return mx;
+void sieve_linear (int n) {
+	fill (is_composite, is_composite + n, false);
+	for (int i = 2; i < n; ++i) {
+		if (!is_composite[i]) prime.push_back (i);
+		for (int j = 0; j < prime.size () && i * prime[j] < n; ++j) {
+			is_composite[i * prime[j]] = true;
+			if (i % prime[j] == 0) break;
+		}
+	}
 }
 
 
 void solve(){
+    sieve_linear(100);
     int n; cin>>n;
-    ll suma = 0LL;
-    rep(i, n) {cin>>vec[i]; suma += vec[i];}
-    rep(i, n) {mat[i][i] = vec[i]; vis[i][i] = true;}
-    ll a = dp(0, n - 1, suma);
-    ll b = suma - a;
-    cout<<a - b;
+    for(int i = 0; i < prime.size(); i++){
+        while(n % prime[i] == 0){
+            cout<<prime[i];
+            if(n != prime[i]) cout<<"*";
+            n /= prime[i];
+        }
+    }
 }
 
 
 int main(){
-  //freopen("input.txt", "r", stdin);
+//  freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
     fastio;
     int t=1;
-    //cin>>t;
+    // cin>>t;
     while(t--){
         solve();
     }

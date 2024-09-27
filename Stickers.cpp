@@ -17,7 +17,7 @@ typedef pair<ll,ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 
-const int N = 5001;
+const int N = 1e4;
 const ll MOD = 998244353LL;
 const int INF = 1e9;
 
@@ -28,38 +28,36 @@ const char ENDL = '\n';
 const string YES = "YES";
 const string NO = "NO";
 
-vector<vector<ll>> mat(N, vector<ll>(N, 0));
-vector<vector<bool>> vis(N, vector<bool>(N, false));
-vector<ll> vec(N);
-
-ll dp(int l, int r, ll suma){
-    if(vis[l][r]){
-        return mat[l][r];
-    }
-    vis[l][r] = true;
-    ll mx = max(suma - dp(l + 1, r, suma - vec[l]), suma - dp(l, r - 1, suma - vec[r]));
-    mat[l][r] = mx;
-    return mx;
-}
-
 
 void solve(){
-    int n; cin>>n;
-    ll suma = 0LL;
-    rep(i, n) {cin>>vec[i]; suma += vec[i];}
-    rep(i, n) {mat[i][i] = vec[i]; vis[i][i] = true;}
-    ll a = dp(0, n - 1, suma);
-    ll b = suma - a;
-    cout<<a - b;
+    int a, b, r, m; cin>>a>>b>>m>>r;
+    vector<int> gaus;
+    gaus.push_back(1);
+    int val = 10;
+    while(val % m != 1){
+        gaus.push_back(val % m);
+        val = (val * 10) % m;
+    }
+
+    vector<int> dp(m, 0);
+    dp[0] = 1;
+    for(int i = 0; i < 100; i++){
+        for(int j = 0; j < gaus.size(); j++){
+            for(int k = a; k <= b; k++){
+                dp[(k * gaus[j]) % m] = 1;
+            }
+        }
+    }
+    
 }
 
 
 int main(){
-  //freopen("input.txt", "r", stdin);
+//  freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
     fastio;
     int t=1;
-    //cin>>t;
+    // cin>>t;
     while(t--){
         solve();
     }

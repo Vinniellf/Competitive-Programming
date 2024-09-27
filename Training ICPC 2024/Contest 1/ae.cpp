@@ -28,18 +28,16 @@ const char ENDL = '\n';
 const string YES = "YES";
 const string NO = "NO";
 
-vector<vector<ll>> mat(N, vector<ll>(N, 0));
-vector<vector<bool>> vis(N, vector<bool>(N, false));
-vector<ll> vec(N);
+vector<ll> vec(3000);
+vector<vector<ll>> dp(3000, vector<ll>(3000, 0LL));
+vector<vector<bool>> touch(3000, vector<bool>(3000, false));
 
-ll dp(int l, int r, ll suma){
-    if(vis[l][r]){
-        return mat[l][r];
-    }
-    vis[l][r] = true;
-    ll mx = max(suma - dp(l + 1, r, suma - vec[l]), suma - dp(l, r - 1, suma - vec[r]));
-    mat[l][r] = mx;
-    return mx;
+ll max_pun(int l, int r, ll total){
+    if(touch[l][r]) return dp[l][r];
+    dp[l][r] = max(total - max_pun(l + 1, r, total - vec[l]), total - max_pun(l, r - 1, total - vec[r]));
+    touch[l][r] = true;
+    return dp[l][r];
+
 }
 
 
@@ -47,10 +45,10 @@ void solve(){
     int n; cin>>n;
     ll suma = 0LL;
     rep(i, n) {cin>>vec[i]; suma += vec[i];}
-    rep(i, n) {mat[i][i] = vec[i]; vis[i][i] = true;}
-    ll a = dp(0, n - 1, suma);
-    ll b = suma - a;
-    cout<<a - b;
+    rep(i, n) {touch[i][i] = true; dp[i][i] = vec[i];}
+    ll f = max_pun(0, n - 1, suma);
+    ll s = suma - f;
+    cout<<f - s;
 }
 
 

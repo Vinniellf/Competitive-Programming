@@ -37,6 +37,7 @@ void sieve_linear (int n) {
 }
 
 int main(){
+	sieve_linear(10);
     for(auto& elem: prime) cout<<elem<<" ";
     
 }
