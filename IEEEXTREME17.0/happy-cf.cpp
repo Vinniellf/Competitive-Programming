@@ -4,13 +4,14 @@ using namespace std;
 typedef long long ll;
 
 const string ENDL = "\n";
+const ll MOD = 1e9 + 7;
 
-ll dp[20][2000][2];
-bool is_happy[2000];
+ll dp[205][16500][2];
+bool is_happy[16500];
 
 void reset(){
-    for(int i = 0; i < 20; i++){
-        for(int j = 0; j < 2000; j++){
+    for(int i = 0; i < 205; i++){
+        for(int j = 0; j < 16500; j++){
             for(int k = 0; k < 2; k++){
                 dp[i][j][k] = -1LL;
             }
@@ -18,19 +19,19 @@ void reset(){
     }
 }
 
-ll dfs(ll num, int pos, int sum, bool z){
+ll dfs(string num, int pos, int sum, bool z){
     if(dp[pos][sum][z] != -1) return dp[pos][sum][z];
 
     dp[pos][sum][z] = (is_happy[sum] == 1);
-    if(pos == to_string(num).length()) {return dp[pos][sum][z];}
+    if(pos == num.length()) {return dp[pos][sum][z];}
 
     int lim = 9;
-    if(!z) lim = to_string(num)[pos] - '0';
+    if(!z) lim = num[pos] - '0';
 
-    dp[pos][sum][z] = 0;
+    dp[pos][sum][z] = 0LL;
     for(int xth = 0; xth <= lim; xth++){
-        if(z) dp[pos][sum][z] += dfs(num, pos + 1, sum + xth * xth, 1);
-        else dp[pos][sum][z] += dfs(num, pos + 1, sum + xth * xth, xth < lim);
+        if(z) dp[pos][sum][z] = (dp[pos][sum][z] + dfs(num, pos + 1, sum + xth * xth, 1))%MOD;
+        else dp[pos][sum][z] = (dp[pos][sum][z] + dfs(num, pos + 1, sum + xth * xth, xth < lim))%MOD;
     }
     
     return dp[pos][sum][z];
@@ -46,9 +47,9 @@ int sum_dig(int num){
 }
 
 void init(){
-    for(int i = 0; i < 2000; i++) is_happy[i] = 0;
+    for(int i = 0; i < 16500; i++) is_happy[i] = 0;
     is_happy[1] = 1;
-    for(int i = 2; i < 2000; i++){
+    for(int i = 2; i < 16500; i++){
         map<int, int> ok;
         int n = i;  
         bool flag = true;
@@ -62,14 +63,25 @@ void init(){
     }
 }
 
-signed main(){
-    init();
-    ll a, b; cin>>a>>b;
-    a--;
+void solve(){
+    string a, b; cin>>a>>b;
+    if(a[a.size() - 1] >= '1')  a[a.size() - 1]--;
+    else{
+        a[a.size() - 1] = '9';
+        a[a.size() - 2]--;
+    }
     reset();
     ll total = dfs(b, 0, 0, 0);
     reset();
     total -= dfs(a, 0, 0, 0);
-    cout<<total;
-    return 0;
+    cout<<total<<ENDL;
+}
+
+signed main(){
+    init();
+    int t; cin>>t;
+    while(t--){
+        solve();
+    }
+
 }
