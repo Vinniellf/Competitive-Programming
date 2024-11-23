@@ -17,15 +17,9 @@ using namespace std;
 
 typedef long double ld;
 typedef long long ll;
-typedef pair<int,int> pii;
-typedef pair<ll,ll> pll;
-typedef vector<int> vi;
-typedef vector<ll> vl;
 
-const int N = 1e4;
 const ll MOD = 998244353LL;
 const int INF = 1e9;
-
 
 void task(bool flag){
 	if (flag)
