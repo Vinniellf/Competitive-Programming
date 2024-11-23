@@ -10,14 +10,13 @@ using namespace std;
 #define F first
 #define S second
 
-typedef long double ld;
 typedef long long ll;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 
-const int N = 1e4;
+const int N = 5001;
 const ll MOD = 998244353LL;
 const int INF = 1e9;
 
@@ -29,37 +28,30 @@ const string YES = "YES";
 const string NO = "NO";
 
 
+
 void solve(){
-    string s, t; cin>>s>>t;
-    int n = s.size(), m = t.size();
-    int DP[n + 1][m + 1];
+    string s; cin>>s;
+    vector<vector<int>> mat(s.size(), vector<int>(26, 0));
+    vector<vector<int>> rev(s.size(), vector<int>(26, 0));
+    for(int i = 0; i < s.size(); i++) {
+        if(i != 0) {mat[i] = mat[i - 1]; rev[i] = rev[i - 1];}
+        mat[i][s[i] - 'A'] |= 1; 
+        rev[i][s[s.size() - 1 - i] - 'A'] |= 1;
+    }
+    for(int i = 1; i <= 26; i++){
+        if(rev[i - 1] == mat[s.size() - 1 - i]) {cout<<s.size() - i; break;}
 
-    for(int i = 0; i <= n; i++){
-        DP[i][0] = i;
     }
-    for(int j = 0; j <= m; j++){
-        DP[0][j] = j;
-    }
-
-    for(int i = 1; i <= n; i++){
-        for(int j = 1; j <= m; j++){
-            if(s[i - 1] == t[j - 1]) DP[i][j] = DP[i - 1][j - 1];
-            else{
-                DP[i][j] = min(min(DP[i - 1][j] + 1, DP[i][j - 1] + 1), DP[i - 1][j - 1] + 1);
-            }
-        }
-    }
-    cout<<DP[n][m];
 
 }
 
 
 int main(){
-//  freopen("input.txt", "r", stdin);
+  //freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
-    ios_base::sync_with_stdio(0); cin.tie(NULL);
+    fastio;
     int t=1;
-    // cin>>t;
+    //cin>>t;
     while(t--){
         solve();
     }

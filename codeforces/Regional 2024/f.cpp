@@ -10,14 +10,13 @@ using namespace std;
 #define F first
 #define S second
 
-typedef long double ld;
 typedef long long ll;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 
-const int N = 1e4;
+const int N = 5001;
 const ll MOD = 998244353LL;
 const int INF = 1e9;
 
@@ -29,37 +28,42 @@ const string YES = "YES";
 const string NO = "NO";
 
 
+
 void solve(){
-    string s, t; cin>>s>>t;
-    int n = s.size(), m = t.size();
-    int DP[n + 1][m + 1];
-
-    for(int i = 0; i <= n; i++){
-        DP[i][0] = i;
-    }
-    for(int j = 0; j <= m; j++){
-        DP[0][j] = j;
-    }
-
-    for(int i = 1; i <= n; i++){
-        for(int j = 1; j <= m; j++){
-            if(s[i - 1] == t[j - 1]) DP[i][j] = DP[i - 1][j - 1];
-            else{
-                DP[i][j] = min(min(DP[i - 1][j] + 1, DP[i][j - 1] + 1), DP[i - 1][j - 1] + 1);
+    int p, t; cin>>p>>t;
+    if(ceil(t/3.0) <= p && p <= (t + 1)/2){
+        if(p == (t + 1)/2){
+            for(int i = 0; i < t; i++){
+                if(i % 2 == 0) cout<<"X";
+                else cout<<"-";
             }
+        } else{
+            cout<<"-X"; t -= 2; p-=1;
+            while(p != t / 2){
+                cout<<"--X";
+                p--; t -= 3;
+            }
+            for(int i = 0; i < t; i++){
+                if(i % 2 == 0) cout<<"-";
+                else cout<<"X";
+            }
+            
         }
+
+    } else {
+        cout<<"*";
     }
-    cout<<DP[n][m];
+    
 
 }
 
 
 int main(){
-//  freopen("input.txt", "r", stdin);
+  //freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
-    ios_base::sync_with_stdio(0); cin.tie(NULL);
+    fastio;
     int t=1;
-    // cin>>t;
+    //cin>>t;
     while(t--){
         solve();
     }

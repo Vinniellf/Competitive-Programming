@@ -10,14 +10,13 @@ using namespace std;
 #define F first
 #define S second
 
-typedef long double ld;
 typedef long long ll;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 
-const int N = 1e4;
+const int N = 5001;
 const ll MOD = 998244353LL;
 const int INF = 1e9;
 
@@ -28,38 +27,45 @@ const char ENDL = '\n';
 const string YES = "YES";
 const string NO = "NO";
 
+const double PI = 3.141592653;
+
+
 
 void solve(){
-    string s, t; cin>>s>>t;
-    int n = s.size(), m = t.size();
-    int DP[n + 1][m + 1];
-
-    for(int i = 0; i <= n; i++){
-        DP[i][0] = i;
+    int ang, n; cin>>ang>>n;
+    double factor = 1.0/tan((PI * ang) / 180.0);
+    vector<pair<int, int>> vec(n);
+    vector<pair<double, double>> ans(n);
+    rep(i, n) cin>>vec[i].first>>vec[i].second;
+    sort(all(vec));
+    rep(i, n) {
+        ans[i].first = vec[i].first;
+        ans[i].second = vec[i].second * factor + vec[i].first;
     }
-    for(int j = 0; j <= m; j++){
-        DP[0][j] = j;
-    }
-
-    for(int i = 1; i <= n; i++){
-        for(int j = 1; j <= m; j++){
-            if(s[i - 1] == t[j - 1]) DP[i][j] = DP[i - 1][j - 1];
-            else{
-                DP[i][j] = min(min(DP[i - 1][j] + 1, DP[i][j - 1] + 1), DP[i - 1][j - 1] + 1);
-            }
+    double res = 0.0;
+    double init = ans[0].first, last = ans[0].second;
+    for(int i = 1; i < n; i++){
+        if(ans[i].first > last){
+            res += last - init;
+            init = ans[i].first;
+            last = ans[i].second;
+            continue;
         }
+        last = max(last, ans[i].second);
     }
-    cout<<DP[n][m];
+    res += last - init;
+    cout<<res;
+
 
 }
 
 
 int main(){
-//  freopen("input.txt", "r", stdin);
+  //freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
-    ios_base::sync_with_stdio(0); cin.tie(NULL);
+    fastio;
     int t=1;
-    // cin>>t;
+    //cin>>t;
     while(t--){
         solve();
     }

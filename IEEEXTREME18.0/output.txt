@@ -1,0 +1,10 @@
+a094x00000EXXzCxxx,"IEEE US Conference on Autonomic Computing and Self-Organizing Systems","1ACSOS",,P00,"Parent Event"
+a094x00002MGty5xxx,"2023 IEEE US Conference on Autonomic Computing and Self-Organizing Systems","1ACSOS",23P00,P00,"IEEE Event",a094x00000EXXzCxxx
+a094x00000EXXzC,"IEEE International Conference on Autonomic Computing and Self-Organizing Systems","ACSOS",,X51,"Parent Event"
+a094x00001IYX7e,"2022 IEEE International Conference on Autonomic Computing and Self-Organizing Systems","ACSOS",22X51,X51,"IEEE Event",a094x00000EXXzC
+a094x00002MGty5,"2023 IEEE International Conference on Autonomic Computing and Self-Organizing Systems","ACSOS",23X51,X51,"IEEE Event",a094x00000EXXzC
+a094x00000EXXrU,"Antennas Design and Measurement International Conference","acsos",,U43,"Parent Event"
+a094x00000Bm0VM,"2019 Antennas Design and Measurement International Conference","acsos",19U43,U43,"IEEE Event",a094x00000EXXrU
+a094x00000Bm112,"2021 Antennas Design and Measurement International Conference","acsos",21U43,U43,"IEEE Event",a094x00000EXXrU
+a094x00000EXXzCyyy,"IEEE Conference on Autonomic Computing","bACSOS",,YN0,"Parent Event"
+a094x00002MGty5yyy,"2023 IEEE Conference on Autonomic Computing","bACSOS",23YN0,YN0,"IEEE Event",a094x00000EXXzCyyy

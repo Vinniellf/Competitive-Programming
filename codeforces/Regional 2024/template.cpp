@@ -10,14 +10,13 @@ using namespace std;
 #define F first
 #define S second
 
-typedef long double ld;
 typedef long long ll;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 
-const int N = 1e4;
+const int N = 5001;
 const ll MOD = 998244353LL;
 const int INF = 1e9;
 
@@ -29,37 +28,35 @@ const string YES = "YES";
 const string NO = "NO";
 
 
+
 void solve(){
-    string s, t; cin>>s>>t;
-    int n = s.size(), m = t.size();
-    int DP[n + 1][m + 1];
-
-    for(int i = 0; i <= n; i++){
-        DP[i][0] = i;
-    }
-    for(int j = 0; j <= m; j++){
-        DP[0][j] = j;
-    }
-
-    for(int i = 1; i <= n; i++){
-        for(int j = 1; j <= m; j++){
-            if(s[i - 1] == t[j - 1]) DP[i][j] = DP[i - 1][j - 1];
-            else{
-                DP[i][j] = min(min(DP[i - 1][j] + 1, DP[i][j - 1] + 1), DP[i - 1][j - 1] + 1);
-            }
+    ll n, x; cin>>n>>x;
+    vector<ll> vec(n);
+    rep(i, n) cin>>vec[i];
+    ll ans = 0LL;
+    while(!vec.empty()){
+        ll mn = 1e9 + 1LL;
+        vector<ll> now;
+        sort(all(vec));
+        for(ll i = vec.size() - 1; i >= max(0LL, (ll)vec.size() - x) ; i--){
+            mn = min(mn, vec[i]);
+            now.push_back(vec[i]);
         }
+        for(int i = 0; i < now.size(); i++) vec.pop_back();
+        for(int i = 0; i < now.size(); i++) if((now[i] - mn) != 0LL) vec.push_back(now[i] - mn);
+        ans += mn;
     }
-    cout<<DP[n][m];
+    cout<<ans<<ENDL;
 
 }
 
 
 int main(){
-//  freopen("input.txt", "r", stdin);
+  freopen("input.txt", "r", stdin);
 //	freopen("output.txt", "w", stdout);
-    ios_base::sync_with_stdio(0); cin.tie(NULL);
+    fastio;
     int t=1;
-    // cin>>t;
+    cin>>t;
     while(t--){
         solve();
     }
