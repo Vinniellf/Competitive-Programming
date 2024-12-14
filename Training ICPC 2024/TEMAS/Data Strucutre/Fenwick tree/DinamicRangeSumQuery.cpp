@@ -10,7 +10,7 @@ using namespace std;
 typedef long double ld;
 typedef long long ll;
 
-const int N = 2e6 + 5;
+const int N = 2e5 + 5;
 int n;
 
 ll Bit[N];
@@ -29,7 +29,7 @@ ll query(int l, int r) {
 }
 
 
-void add(int x, int delta) {
+void add(int x, ll delta) {
     while(x <= n){
         Bit[x] += delta;
         x += x & -x;
@@ -38,17 +38,23 @@ void add(int x, int delta) {
 
 void solve(){
     int q; cin>>n>>q;
+    vector<ll> vec(n);
     for(int i = 0; i < n; i++){
-        int a; cin>>a;
-        add(i + 1, a);
+        cin>>vec[i];
+        add(i + 1, vec[i]);
     }
 
     for(int i = 0; i < q; i++){
-        int a, b;
-        cin>>a>>b;
-        cout<<query(a, b)<<endl;
+        int p, a, b;
+        cin>>p>>a>>b;
+        if(p == 1){
+            add(a, b - vec[a - 1]);
+            vec[a - 1] = b; 
+        } else{
+            cout<<query(a, b)<<endl;
+        }
+        
     }
-    
 
 }
 

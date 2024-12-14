@@ -18,20 +18,20 @@ ll Bit[N];
 ll query(int r) {
     ll res = 0;
     while(r > 0) { 
-        res += Bit[r];
+        res ^= Bit[r];
         r -= r & -r;
     }
     return res;
 }
 
 ll query(int l, int r) {
-    return query(r) - query(l - 1);
+    return query(r) ^ query(l - 1);
 }
 
 
 void add(int x, int delta) {
     while(x <= n){
-        Bit[x] += delta;
+        Bit[x] ^= delta;
         x += x & -x;
     }
 }
@@ -44,12 +44,9 @@ void solve(){
     }
 
     for(int i = 0; i < q; i++){
-        int a, b;
-        cin>>a>>b;
+        int a, b; cin>>a>>b;
         cout<<query(a, b)<<endl;
     }
-    
-
 }
 
 

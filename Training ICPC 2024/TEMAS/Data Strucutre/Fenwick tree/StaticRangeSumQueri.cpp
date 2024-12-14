@@ -10,12 +10,12 @@ using namespace std;
 typedef long double ld;
 typedef long long ll;
 
-const int N = 2e6 + 5;
+const int N = 2e5 + 5;
 int n;
 
 ll Bit[N];
 
-ll query(int r) {
+ll sum(int r) {
     ll res = 0;
     while(r > 0) { 
         res += Bit[r];
@@ -24,8 +24,8 @@ ll query(int r) {
     return res;
 }
 
-ll query(int l, int r) {
-    return query(r) - query(l - 1);
+ll sum(int l, int r) {
+    return sum(r) - sum(l - 1);
 }
 
 
@@ -38,17 +38,17 @@ void add(int x, int delta) {
 
 void solve(){
     int q; cin>>n>>q;
+    vector<long long> vec(n);
     for(int i = 0; i < n; i++){
-        int a; cin>>a;
-        add(i + 1, a);
+        cin>>vec[i];
+        add(i + 1, vec[i]);
     }
 
     for(int i = 0; i < q; i++){
         int a, b;
         cin>>a>>b;
-        cout<<query(a, b)<<endl;
+        cout<<sum(a, b)<<endl;
     }
-    
 
 }
 

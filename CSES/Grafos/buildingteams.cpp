@@ -3,17 +3,17 @@ using namespace std;
 
 const int maxN = 2e5 + 5;
 
-// USO DE DFS para componentes
+// USO DE DFS usando colores
 vector<vector<int>> g(maxN);
-vector<vector<int>> comp;
 bool used[maxN];
+vector<int> ans(maxN);
 
-void dfs(int v, int j){
+void dfs(int v, int color){
     for(int u : g[v]){
         if(!used[u]) {
             used[u] = true;
-            comp[j].push_back(u);
-            dfs(u, j);
+            ans[u] = (color == 1? 2 : 1);
+            dfs(u, (color == 1? 2 : 1));
         }
     }
 }
@@ -26,21 +26,26 @@ signed main(){
         g[a].push_back(b);
         g[b].push_back(a);
     }
-    int index = 0;
+    
     for(int i = 0; i < n; i++){
         if(!used[i]){
             used[i] = true;
-            comp.emplace_back();
-            comp[index].push_back(i);
-            dfs(i, index);
-            index++;
+            dfs(i, 1);
+            ans[i] = 1;
         }
     }
 
-    cout<<comp.size() - 1<<endl;
-    for(int i = 1; i < comp.size(); i++){
-        cout<<comp[i - 1][0] + 1<<" "<<comp[i][0] + 1<<endl;
+    bool ok = true;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < g[i].size(); j++){
+            if(ans[g[i][j]] == ans[i]){
+                cout<<"IMPOSSIBLE";
+                return 0;
+            }
+        }
     }
+
+    for(int i = 0; i < n; i++) cout<<ans[i]<<" ";
     
     return 0;
 }
