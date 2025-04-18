@@ -5,9 +5,6 @@ using namespace std;
 typedef long long ll;
 
 const char ENDL = '\n';
-ll dp[20][]
-
-
 
 int main(){
 //  freopen("input.txt", "r", stdin);
