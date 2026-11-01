@@ -12,6 +12,7 @@ using namespace std;
 #define all(v) (v).begin(),(v).end()
 #define PI 3.14159265359
 
+
 typedef long double ld;
 typedef long long ll;
 typedef unsigned long long ull;
@@ -32,8 +33,10 @@ void solve() {
 }
 
 int main(){
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    #ifndef ONLINE_JUDGE 
+        freopen("in.txt", "r", stdin);
+        //freopen("out.txt", "w", stdout);
+    #endif
     fastio;
     ll t = 1;
     //cin >> t;
