@@ -13,19 +13,6 @@ using namespace std;
 #define PI 3.14159265359
 #define int long long
 
-
-typedef long double ld;
-typedef long long ll;
-typedef unsigned long long ull;
-
-typedef tree<
-    pair<int, int>,
-    null_type,
-    less<pair<int, int>>,
-    rb_tree_tag,
-    tree_order_statistics_node_update
-> ordered_multiset;
-
 const ll MOD = 998244353LL;
 const int INF = 1e9;
 vector<int> m;
@@ -38,7 +25,6 @@ struct CentroidDecomposition {
 	vector<int> sub;
 	vector<int> cnt;
 
-
 	CentroidDecomposition(vector<vector<int>> &tree) : tree(tree) {
 		int n = tree.size();
 		sub.resize(n);
@@ -48,33 +34,37 @@ struct CentroidDecomposition {
 	}
 
 	void build(int u, int p) {
-		int n = dfs(u, p); // find the size of each subtree
-		int centroid = dfs(u, p, n); // find the centroid
-		if (p == -1) p = centroid; // dad of root is the root itself
-
-		vector<int> neighbors(tree[centroid].begin(), tree[centroid].end());
+		int n = dfs(u, p);
+		int centroid = dfs(u, p, n);
 		
 		cnt[0] = 1;
 		vector<int> distances;
-		for (auto v : neighbors) {
+		
+		for (auto v : tree[centroid]) {
+			if (removed[v]) continue; // Ignoramos los subárboles muertos
+			
+			// 1. Primero calculamos y contamos usando lo ya visto
 			vector<int> subt_dist;
-			if(!removed[v]) get_dist(v, centroid, 1, subt_dist);
-
+			get_dist(v, centroid, 1, subt_dist); 	
+			
+			// 2. DESPUÉS añadimos las distancias de este subárbol y acumulamos en distances para borrarlo posteriormente
 			for (int d : subt_dist) {
-				cnt[d]++;
+				cnt[d]++;               
 				distances.pb(d);
 			}
-	    }
-
+		}
+		
+		// Limpiamos el arreglo cnt para el siguiente centroide en O(tamaño del componente)
 		for (int d : distances) {
 			cnt[d] = 0;
 		}
-		cnt[0] = 0;
-
+		cnt[0] = 0; 
+		
+		// Removemos el centroide y seguimos con la construcción
 		removed[centroid] = true;
-		for (auto v : neighbors) {
+		for (auto v : tree[centroid]) {
 			if(!removed[v]) build(v, centroid);
-	    }
+		}
 	}
 
 	void get_dist(int u, int p, int d, vector<int> &distances) {
@@ -113,8 +103,6 @@ void solve() {
 
     CentroidDecomposition cd(g);
 	cout << ans << endl;
-    
-
 }
 
 signed main(){
