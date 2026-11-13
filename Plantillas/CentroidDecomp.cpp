@@ -17,11 +17,10 @@ struct CentroidDecomposition {
 		int centroid = dfs(u, p, n); // find the centroid
 		if (p == -1) p = centroid; // dad of root is the root itself
 		dad[centroid] = p;
-
-		vector<int> neighbors(tree[centroid].begin(), tree[centroid].end());
 		
-		for (auto v : neighbors) {
-			if(!removed[v]) build(v, centroid);
+		for (auto v : tree[centroid]) {
+			if(removed[v]) continue; 
+			build(v, centroid);
 	    }
 	}
 
